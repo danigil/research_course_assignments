@@ -89,36 +89,47 @@ def breadth_first_search(start, end, func):
 
 
 def print_sorted(obj):
+
     def print_no_new_line(obj):
         print(obj,end="")
 
     def print_sorted_list(l:list):
+        flag = False
         print("[",end="")
+
         for item in sorted(l):
+            if flag:
+                print(", ", end="")
             funcs_dict.get(type(item), print_no_new_line)(item)
-            print(", ",end="")
+            flag = True
         print("]", end="")
-
-
     def print_sorted_dict(d:dict):
+        flag = False
         print("{", end="")
         for key in sorted(d):
-            print(f"\"{key}\":",end="")
-
+            if flag:
+                print(", ", end="")
+            print(f"\"{key}\": ",end="")
             funcs_dict.get(type(d[key]), print_no_new_line)(d[key])
-            print(", ", end="")
+            flag = True
         print("}", end="")
     def print_sorted_set(s:set):
+        flag = False
         print("{", end="")
         for item in s:
+            if flag:
+                print(", ", end="")
             funcs_dict.get(type(item), print_no_new_line)(item)
-            print(", ", end="")
+            flag = True
         print("}", end="")
     def print_sorted_tuple(t:tuple):
+        flag = False
         print("(", end="")
         for item in sorted(t):
+            if flag:
+                print(", ", end="")
             funcs_dict.get(type(item), print_no_new_line)(item)
-            print(", ", end="")
+            flag = True
         print(")", end="")
 
     funcs_dict = {
@@ -131,11 +142,19 @@ def print_sorted(obj):
     funcs_dict.get(type(obj),print_no_new_line)(obj)
     print("")
 
-
+def print_sorted2(obj):
+    if type(obj) in (list,tuple,set):
+        for item in obj:
+            print_sorted2(item)
+    elif type(obj) == dict:
+        for key, value in obj.items():
+            print_sorted2(value)
+    else:
+        print(obj)
 
 
 if __name__ == '__main__':
-    x = {"a" : 5, "c" : 6, "b" : [1,3,2,[4,[7,1,5]]]}
+    x = {"a" : 5, "c" : 6, "b" : [1,3,2]}
 
     
     print(x)
