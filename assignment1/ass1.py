@@ -8,7 +8,8 @@ def f1(x: int, y: int, z):
 
 def safe_call(func, *args):
     """
-    safe_call receives function, args for that function and calls the function
+    safe_call
+    receives function, args for that function and calls the function
     with those args if they match the annotations, otherwise throws exception.
 
     ##Good Cases (Shouldn't throw)
@@ -78,42 +79,67 @@ def breadth_first_search(start, end, func):
 
     def print_path(start, end):
         if start == end:
-            print(start,end="")
+            print(start, end="")
         elif end not in predecessors:
             print("no path")
         else:
             print_path(start, predecessors[end])
-            print(" ->",end,end="")
+            print(" ->", end, end="")
 
     print_path(start, end)
 
 
 def print_sorted(obj):
+    """
+    print_sorted
+    receives a variable (can be a data structure (nested or not) or a primitive var)
+    and prints it sorted in all nested levels.
+
+    >>> print_sorted({'a': 5, 'c': 6, 'b': [1, 3, 2]})
+    {"a": 5, "b": [1, 2, 3], "c": 6}
+    >>> print_sorted((7,5,[8,5,8,(2,1)]))
+    ([(1, 2), 5, 8, 8], 5, 7)
+
+    """
+
+    # choose key is used to allow sorted() to be able to compare Data structures and other objects
+    def choose_key(x):
+        if type(x) in (list, dict, tuple, set):
+            return len(x)
+        else:
+            return x
 
     def print_no_new_line(obj):
-        print(obj,end="")
+        print(obj, end="")
 
-    def print_sorted_list(l:list):
+    """
+        the following 4 methods are used to print each ds 
+        according to its representation and then recurse on the inner objects
+    """
+
+    def print_sorted_list(l: list):
         flag = False
-        print("[",end="")
+        print("[", end="")
 
-        for item in sorted(l):
+        for item in sorted(l, key=choose_key):
             if flag:
                 print(", ", end="")
             funcs_dict.get(type(item), print_no_new_line)(item)
             flag = True
         print("]", end="")
-    def print_sorted_dict(d:dict):
+
+    def print_sorted_dict(d: dict):
         flag = False
         print("{", end="")
         for key in sorted(d):
             if flag:
                 print(", ", end="")
-            print(f"\"{key}\": ",end="")
+            print(f"\"{key}\": ", end="")
             funcs_dict.get(type(d[key]), print_no_new_line)(d[key])
             flag = True
         print("}", end="")
-    def print_sorted_set(s:set):
+
+    def print_sorted_set(s: set):
         flag = False
         print("{", end="")
         for item in s:
@@ -122,16 +148,18 @@ def print_sorted(obj):
             funcs_dict.get(type(item), print_no_new_line)(item)
             flag = True
         print("}", end="")
-    def print_sorted_tuple(t:tuple):
+
+    def print_sorted_tuple(t: tuple):
         flag = False
         print("(", end="")
-        for item in sorted(t):
+        for item in sorted(t, key=choose_key):
             if flag:
                 print(", ", end="")
             funcs_dict.get(type(item), print_no_new_line)(item)
             flag = True
         print(")", end="")
 
+    # dict that's used to call appropriate method for each type
     funcs_dict = {
         list: print_sorted_list,
         dict: print_sorted_dict,
@@ -139,44 +167,9 @@ def print_sorted(obj):
         tuple: print_sorted_tuple
     }
 
-    funcs_dict.get(type(obj),print_no_new_line)(obj)
+    funcs_dict.get(type(obj), print_no_new_line)(obj)
     print("")
-
-def print_sorted2(obj):
-    if type(obj) in (list,tuple,set):
-        for item in obj:
-            print_sorted2(item)
-    elif type(obj) == dict:
-        for key, value in obj.items():
-            print_sorted2(value)
-    else:
-        print(obj)
 
 
 if __name__ == '__main__':
-    x = {"a" : 5, "c" : 6, "b" : [1,3,2]}
-
-    
-    print(x)
-    print_sorted(x)
-    print(x)
-    """
-    l= [1,3,2]
-    print_sorted(l)
-    print(l)
-    
-    s = str(x)
-    print(s)
-    
-    print(sorted(x))
-    
-    print_sorted(x)
-    print(list(x.items()))
-    l = list(x.items())
-    l.sort(key= lambda a:a[0])
-    
-    print(l)
-"""
-    #testmod(name='assignment1', verbose=True)
-    #testmod(name='breadth', verbose=True)
-    #breadth_first_search((0, 0), (1, 3), four_neighbor_function)
+    testmod(name='assignment1', verbose=True)
