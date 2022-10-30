@@ -89,14 +89,37 @@ def breadth_first_search(start, end, func):
 
 
 def print_sorted(obj):
+    def print_no_new_line(obj):
+        print(obj,end="")
+
     def print_sorted_list(l:list):
-        print(sorted(l))
+        print("[",end="")
+        for item in sorted(l):
+            funcs_dict.get(type(item), print_no_new_line)(item)
+            print(", ",end="")
+        print("]", end="")
+
+
     def print_sorted_dict(d:dict):
-        print("dict")
+        print("{", end="")
+        for key in sorted(d):
+            print(f"\"{key}\":",end="")
+
+            funcs_dict.get(type(d[key]), print_no_new_line)(d[key])
+            print(", ", end="")
+        print("}", end="")
     def print_sorted_set(s:set):
-        print("set")
+        print("{", end="")
+        for item in s:
+            funcs_dict.get(type(item), print_no_new_line)(item)
+            print(", ", end="")
+        print("}", end="")
     def print_sorted_tuple(t:tuple):
-        print("tuple")
+        print("(", end="")
+        for item in sorted(t):
+            funcs_dict.get(type(item), print_no_new_line)(item)
+            print(", ", end="")
+        print(")", end="")
 
     funcs_dict = {
         list: print_sorted_list,
@@ -105,15 +128,24 @@ def print_sorted(obj):
         tuple: print_sorted_tuple
     }
 
-    funcs_dict.get(type(obj),print)(obj)
+    funcs_dict.get(type(obj),print_no_new_line)(obj)
+    print("")
+
+
 
 
 if __name__ == '__main__':
-    x = {"a" : 5, "c" : 6, "b" : [1,3,2,4]}
+    x = {"a" : 5, "c" : 6, "b" : [1,3,2,[4,[7,1,5]]]}
+
+    
+    print(x)
+    print_sorted(x)
+    print(x)
+    """
     l= [1,3,2]
     print_sorted(l)
     print(l)
-    """"
+    
     s = str(x)
     print(s)
     
