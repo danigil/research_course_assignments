@@ -36,10 +36,24 @@ def lastcall(func: Callable,d={}) -> Callable:
 
         >>> f2(x=2,y='a')
         aa
+
+        >>> f2(2,'aba')
+        abaaba
+
+        >>> f2(2,'aba')
+        I already told you that the answer is abaaba!
+
+        >>> f3(('oingo','boingo'))
+        (('oingo', 'boingo'),)
+
+        >>> f3(('boingo','oingo'))
+        (('boingo', 'oingo'),)
+
+        >>> f3(('boingo','oingo'))
+        I already told you that the answer is (('boingo', 'oingo'),)!
     """
 
     def wrapper(*args, **kwargs):
-        #print(d)
         key = (func,tuple(args), tuple(kwargs.items()))
 
         if key in d:
@@ -60,7 +74,9 @@ def f1(x: int):
 def f2(x: int, y: str):
     return y * x
 
-
+@lastcall
+def f3(*args):
+    return args
 
 if __name__ == '__main__':
     testmod(name='assignment2_ex2', verbose=True)

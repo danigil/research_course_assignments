@@ -1,6 +1,6 @@
 from doctest import testmod
 
-import regex
+import re
 
 email_pattern = r"([a-zA-Z0-9]+)([_.-]{1}[a-zA-Z0-9]+)*@([a-zA-Z0-9])+(-{1}[a-zA-Z0-9]+)*\.([a-zA-Z]{2,})"
 
@@ -47,11 +47,11 @@ def print_email_addresses(name: str):
     """
     valid = []
     fuzzy = []
-    if regex.fullmatch("\S+.txt", name):
+    if re.fullmatch("\S+.txt", name):
         with open(name, 'r') as file:
             for line in file:
-                valid.append(regex.search(email_pattern, line))
-                fuzzy += [regex.search(current_fuzzy, line) for current_fuzzy in create_fuzzies()]
+                valid.append(re.search(email_pattern, line))
+                fuzzy += [re.search(current_fuzzy, line) for current_fuzzy in create_fuzzies()]
 
         valid = set(map(lambda x: x.group(), filter(lambda x: x is not None, valid)))
         fuzzy = set(map(lambda x: x.group(), filter(lambda x: x is not None, fuzzy))) - valid
@@ -73,5 +73,5 @@ def print_email_addresses(name: str):
         raise Exception
 
 if __name__ == '__main__':
-    testmod(name='assignment3_ex1', verbose=True)
+    testmod(name='assignment2_ex1', verbose=True)
 
