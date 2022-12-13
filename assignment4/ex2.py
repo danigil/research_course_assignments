@@ -8,6 +8,12 @@ import matplotlib.pyplot as plt
 
 
 def approximation_ratio(n):
+    """
+    approximate solution is guarenteed to be OPT*O(n/logn^2) where n is the amount of nodes in the graph
+    
+    Boppana, R., & Halldórsson, M. M. (1992). 
+    Approximating maximum independent sets by excluding subgraphs. BIT Numerical Mathematics, 32(2), 180–196. Springer. doi:10.1007/BF01994876
+    """
     return numpy.divide(n, numpy.power(numpy.log2(n), 2))
 
 
